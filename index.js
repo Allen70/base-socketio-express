@@ -6,18 +6,19 @@ const port = 3000
 const io = require('socket.io')(http, {
     cors: {
         origin: "*",
-        method: "*"
+        method: "*",
     }
 })
 
 io.on('connection', socket => {
     console.log('A user connected')
-    socket.on('chat message', message => {
-        socket.broadcast.emit('chat message', message)
+    socket.on('message', message => {
+        console.log('message', message)
+        io.emit('servermessage', message)
     })
 })
 
-http.listen(3000, () => {
+http.listen(port, () => {
     console.log(`I'm listening on port ${port}`)
 })
 
